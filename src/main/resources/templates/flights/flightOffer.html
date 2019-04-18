@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: header(~{::title},~{::link}, ~{::script})">
+    <title>Flight offers</title>
+    <link href="../static/css/style.css"
+          th:href="@{~/css/style.css}" rel="stylesheet">
+
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/css/bootstrap-datepicker.min.css"
+          th:href="@{~/webjars/bootstrap-datepicker/1.8.0/css/bootstrap-datepicker3.min.css}" rel="stylesheet">
+
+    <script src="../static/js/bootstrap3-typeahead.js"
+            th:src="@{~/js/bootstrap3-typeahead.js}" defer></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/js/bootstrap-datepicker.min.js"
+            th:src="@{~/webjars/bootstrap-datepicker/1.8.0/js/bootstrap-datepicker.min.js}"></script>
+
+    <script src="../static/js/custom.js"
+            th:src="@{~/js/custom.js}" defer></script>
+
+
+</head>
+<body class="bg-gradient-primary">
+<div class="container">
+    <div class="card border-0 shadow">
+        <img th:src="@{~/images/plane-header.jpg}" class="img-fluid" alt="Header picture">
+        <div class="card-body p-5 align-items-center">
+            <div class="container-fluid w-75">
+                <form class="form" autocomplete="off" th:action="@{/flight-offer}" method="post"
+                      th:object="${flightOffer}">
+                    <div class="form-row">
+                        <div class="col-md-6 mb-3">
+                            <label for="fromAirport">From (Airport)</label>
+                            <div class="input-group">
+                                <input type="text" class="form-control" th:errorclass="is-invalid" id="fromAirport"
+                                       placeholder="From"
+                                       aria-describedby="faFrom"
+                                       th:field="*{from.name}">
+                                <input type="hidden" id="fromCode" th:field="*{from.code}">
+                                <div class="invalid-feedback error" th:if="${#fields.hasErrors('from.code') or #fields.hasErrors('from.name')}"
+                                     th:errors="*{from.code}">
+                                    From airport error
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="toAirport">To (Airport)</label>
+                            <div class="input-group">
+                                <input type="text" class="form-control" th:errorclass="is-invalid" id="toAirport"
+                                       placeholder="To"
+                                       aria-describedby="faTo"
+                                       th:field="*{to.name}">
+                                <input type="hidden" id="toCode" th:field="*{to.code}">
+                                <div class="invalid-feedback error" th:if="${#fields.hasErrors('to.code') or #fields.hasErrors('to.name')}"
+                                     th:errors="*{to.code}">
+                                    To airport error
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="col-md-6 mb-3">
+                            <label for="depart">Depart</label>
+                            <div class="input-group date">
+                                <div class="input-group-prepend">
+                                <span class="input-group-text" id="faDepart"><i
+                                        class="fas fa-calendar-alt"></i></span>
+                                </div>
+                                <input type="text" class="form-control" th:errorclass="is-invalid" id="depart"
+                                       placeholder="Depart date"
+                                       data-provide="datepicker"
+                                       aria-describedby="faDepart"
+                                       th:field="*{flightDepart}">
+                                <div class="invalid-feedback" th:if="${#fields.hasErrors('flightDepart')}"
+                                     th:errors="*{flightDepart}">
+                                    Depart date error
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="return">Return</label>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                <span class="input-group-text" id="faReturn"><i
+                                        class="far fa-calendar-alt"></i></span>
+                                </div>
+                                <input type="text" class="form-control" th:errorclass="is-invalid" id="return"
+                                       placeholder="Return date"
+                                       data-provide="datepicker"
+                                       aria-describedby="faReturn"
+                                       th:field="*{flightReturn}">
+                                <div class="invalid-feedback" th:if="${#fields.hasErrors('flightReturn')}"
+                                     th:errors="*{flightReturn}">
+                                    Return date error
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="col-md-6 mb-3">
+                            <label for="passengers">Passengers (Adults only)</label>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                <span class="input-group-text" id="faPassenger"><i
+                                        class="fas fa-users"></i></span>
+                                </div>
+                                <input type="number" class="form-control" th:errorclass="is-invalid" id="passengers"
+                                       placeholder="Amount"
+                                       aria-describedby="faPassenger"
+                                       th:field="*{passenger}">
+                                <div class="invalid-feedback" th:if="${#fields.hasErrors('passenger')}"
+                                     th:errors="*{passenger}">
+                                    Passenger amount error
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="currency">Currency</label>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                <span class="input-group-text" id="faCurrency"><i
+                                        class="fas fa-coins"></i></span>
+                                </div>
+                                <select id="currency" class="form-control" th:errorclass="is-invalid" size="0"
+                                        aria-describedby="faCurrency" th:field="*{currency}">
+                                    <option value="">---Please choose---</option>
+                                    <option th:each="currency : ${currencies}"
+                                            th:value="${currency}"
+                                            th:text="${currency}">
+                                    </option>
+                                </select>
+                                <div class="invalid-feedback" th:if="${#fields.hasErrors('currency')}"
+                                     th:errors="*{currency}">
+                                    Currency error
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md">
+                        <button id="submitBtn" type="submit" class="btn btn-outline-success btn-block">Submit</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<div th:replace="fragments/components :: loading-data"></div>
+</body>
+</html>

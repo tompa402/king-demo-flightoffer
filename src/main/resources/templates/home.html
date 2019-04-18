@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: header(~{::title},~{::link}, ~{})">
+    <title>Home</title>
+    <link href="../static/css/style.css"
+          th:href="@{~/css/style.css}" rel="stylesheet">
+</head>
+<body>
+<header>
+    <div id="intro" class="view">
+        <div class="mask">
+            <div class="container-fluid d-flex align-items-center justify-content-center h-100">
+                <div class="row d-flex justify-content-center text-center">
+                    <div class="col-md-10">
+                        <h2 class="display-4 font-weight-bold white-text pt-5 mb-2">Flight offers</h2>
+                        <hr class="hr-light">
+                        <h4 class="white-text my-4">This application is designed for demonstrative purposes that allows
+                            users to search for low cost flights</h4>
+                        <hr class="hr-light">
+                        <a th:href="@{~/flight-offer}" class="btn btn-outline-dark">Continue<i
+                                class="fas fa-plane ml-2"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+</body>
+</html>
